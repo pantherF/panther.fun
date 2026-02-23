@@ -41,8 +41,11 @@ generate_and_push () {
         echo "$(random_words)" >> $timestamp.txt
 
         git_commands "$timestamp.txt"
-	#sleep 2
     done
 }
 
-generate_and_push
+now=$(date +'%Y-%m-%d')
+
+
+
+# generate_and_push
