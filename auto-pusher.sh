@@ -26,7 +26,19 @@ random_words () {
 
 git_commands () {
     git add $1
-    git commit -m "Adding next file: $1"
+    
+    CUSTOM_DATE="2026-02-23T12:31:10+01:00"
+
+    export GIT_AUTHOR_DATE="$CUSTOM_DATE"
+    export GIT_COMMITTER_DATE="$CUSTOM_DATE"
+
+    git add .
+    git commit -m "your message"
+    
+    unset GIT_AUTHOR_DATE
+    unset GIT_COMMITTER_DATE
+
+    git commit -m "Todays contribution: $1"
     git push -u origin main
 }
 
@@ -38,14 +50,15 @@ generate_and_push () {
 	echo "---"
 	echo "Iteration ($i/$number)"
 	echo "---"
-        echo "$(random_words)" >> $timestamp.txt
+        echo "$timestamp - $(random_words)" >> $1
 
-        git_commands "$timestamp.txt"
     done
 }
 
 now=$(date +'%Y-%m-%d')
 
+touch $now.txt
 
+generate_and_push $now.txt
 
-# generate_and_push
+git_commands "$now.txt"
